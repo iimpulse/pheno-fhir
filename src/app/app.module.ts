@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NglModule } from "ng-lightning";
 import { FlexModule } from "@angular/flex-layout";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import { FlexModule } from "@angular/flex-layout";
   imports: [
     BrowserModule,
     NglModule,
-    FlexModule
+    FlexModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

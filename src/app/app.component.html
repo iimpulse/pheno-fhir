@@ -13,30 +13,25 @@
 <div class="content" role="main" fxLayout="row" fxLayoutAlign="space-between">
   <div fxFlex="33" [fxFlexOffset]="flexSearchOffset">
     <ngl-input label="Patient Identifier">
-      <input ngl type="input" placeholder="Enter Patient Id Here">
+      <input ngl type="input" placeholder="Enter Patient Id Here" [(ngModel)]="patientId">
       <br><br>
       <button type="button" nglButton variant="brand" (click)="searchVulcan()">Submit</button>
     </ngl-input>
   </div>
-  <div fxFlex *ngIf="patient">
-    <h3>Patient Information</h3>
+  <div fxFlex fxFlexOffset="5" *ngIf="patient">
+    <h3 class="bt">Patient Information</h3>
+    <div class="box">
+      <p><strong>Name:</strong> {{patient.name}}</p>
+      <p><strong>Age:</strong> {{patient.age}}</p>
+      <p><strong>Gender:</strong> {{patient.gender}}</p>
+    </div>
+    <br>
+    <h3 class="bt">Phenotype Observations</h3>
     <div class="phenotypes-table">
-      <table class="slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout" ngl-datatable [data]="data" trackByKey="rank" [loading]="loading" [(sort)]="sort" (sortChange)="onSort($event)" (rowClick)="onRowClick($event)">
-        <ngl-datatable-column heading="Rank" key="rank" sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Name" key="name" *ngIf="!hideName" truncate sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Surname" key="surname" truncate="true" sortable>
-          <ng-template nglDatatableCell let-row="row"><b>{{row.surname}}</b></ng-template>
-        </ngl-datatable-column>
-        <ngl-datatable-column heading="Points" key="points">
-          <ng-template nglDatatableHeading><strong>Points</strong></ng-template>
-          <ng-template nglDatatableCell let-value>
-            <ngl-badge>{{value | number}}</ngl-badge>
-          </ng-template>
-        </ngl-datatable-column>
-        <!-- Loading overlay-->
-        <ng-template nglLoadingOverlay>
-          <div class="slds-box slds-box_small slds-theme_shade slds-text-align_center">Loading...</div>
-        </ng-template>
+      <table class="slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
+             ngl-datatable [data]="this.patient.observations" trackByKey="rank">
+        <ngl-datatable-column heading="HPO Term Id" key="code" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="HPO Term Name" key="name" sortable></ngl-datatable-column>
         <!-- No rows overlay-->
         <ng-template nglNoRowsOverlay>No data available in table!</ng-template>
       </table>
