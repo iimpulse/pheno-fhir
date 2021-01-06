@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { NglModule } from "ng-lightning";
 import { FlexModule } from "@angular/flex-layout";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { FormsModule } from "@angular/forms";
     NglModule,
     FlexModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

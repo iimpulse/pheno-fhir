@@ -9,12 +9,17 @@ export class FhirService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getAllPatientsFhir(){
+    return this.httpClient.get(environment.FHIR_PATIENT_URL);
+  }
+
   searchPatientFhir(id: string){
-    return this.httpClient.get(environment.FHIR_PATIENT_URL + id);
+    const params = new HttpParams().append("_format", "json");
+    return this.httpClient.get(environment.FHIR_PATIENT_URL + id, {params: params});
   }
 
   searchPatientObservation(id: string){
-    const params = new HttpParams().append("subject", id);
+    const params = new HttpParams().append("subject", id).append("_format", "json").append("category", "phenotype");
     return this.httpClient.get(environment.FHIR_PATIENT_OBSERVATION_URL, {params: params});
   }
 }

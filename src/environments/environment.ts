@@ -1,11 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const FHIR_BASE_URL = "http://hapi.fhir.org/baseR5/"
+const FHIR_BASE_URL = "http://vulcan.clinicalprofiles.org:8080/fhir/"
 export const environment = {
   production: false,
   FHIR_PATIENT_URL: FHIR_BASE_URL + "Patient/",
-  FHIR_PATIENT_OBSERVATION_URL: FHIR_BASE_URL + "Observation/"
+  FHIR_PATIENT_OBSERVATION_URL: FHIR_BASE_URL + "Observation"
 };
 
 /*

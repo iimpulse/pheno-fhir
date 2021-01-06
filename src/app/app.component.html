@@ -2,36 +2,53 @@
   <h2>This is synthetic data. No real patient data has been exposed.</h2>
 </ngl-alert>
 <div class="toolbar" role="banner">
+  <h2 class="title">HPO on FHIR</h2>
+  <div class="spacer"></div>
   <img
-    width="40"
-    alt="Angular Logo"
-    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
+    width="100"
+    alt="hpo"
+    src="https://octri.ohsu.edu/hpo_on_fhir/images/hpo.png"
+    style="float:right"
   />
-  <h2>VulcanUI</h2>
+  <img
+    width="100"
+    alt="fhir"
+    src="https://octri.ohsu.edu/hpo_on_fhir/images/fhir.png"
+    style="float:right"
+  />
 </div>
 
 <div class="content" role="main" fxLayout="row" fxLayoutAlign="space-between">
   <div fxFlex="33" [fxFlexOffset]="flexSearchOffset">
-    <ngl-input label="Patient Identifier">
-      <input ngl type="input" placeholder="Enter Patient Id Here" [(ngModel)]="patientId">
-      <br><br>
-      <button type="button" nglButton variant="brand" (click)="searchVulcan()">Submit</button>
-    </ngl-input>
+    <ngl-select label="FHIR Patient" fieldLevelHelpTooltip="Some helpful information">
+      <select ngl [formControl]="formControl">
+        <option value="" selected>Select a Patient</option>
+        <option *ngFor="let patient of patients" [value]="patient.id">
+          <span *ngIf="patient.name.length > 0">{{patient.name[0].given[0]}} {{patient.name[0].family}}</span>
+          <span *ngIf="patient.name.length == 0">{{patient.id}}</span>
+        </option>
+      </select>
+    </ngl-select>
   </div>
-  <div fxFlex fxFlexOffset="5" *ngIf="patient">
+  <div fxFlex fxFlexOffset="5" *ngIf="patient.name">
     <h3 class="bt">Patient Information</h3>
     <div class="box">
       <p><strong>Name:</strong> {{patient.name}}</p>
-      <p><strong>Age:</strong> {{patient.age}}</p>
+      <p><strong>Age:</strong> {{age}}</p>
       <p><strong>Gender:</strong> {{patient.gender}}</p>
     </div>
     <br>
     <h3 class="bt">Phenotype Observations</h3>
     <div class="phenotypes-table">
       <table class="slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-             ngl-datatable [data]="this.patient.observations" trackByKey="rank">
-        <ngl-datatable-column heading="HPO Term Id" key="code" sortable></ngl-datatable-column>
+             ngl-datatable [data]="this.patient.observations"[(sort)]="sort" (sortChange)="onSort($event)">
+        <ngl-datatable-column heading="HPO Term Id" key="code" sortable>
+          <ng-template nglDatatableCell let-row="row"><b><a href="http://hpo.jax.org/app/browse/term/{{row.code}}" target="_blank">
+            {{row.code}}</a></b>
+          </ng-template>
+        </ngl-datatable-column>
         <ngl-datatable-column heading="HPO Term Name" key="name" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="Excluded?" key="excluded" sortable></ngl-datatable-column>
         <!-- No rows overlay-->
         <ng-template nglNoRowsOverlay>No data available in table!</ng-template>
       </table>
