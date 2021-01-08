@@ -2,7 +2,7 @@
   <h2>This is synthetic data. No real patient data has been exposed.</h2>
 </ngl-alert>
 <div class="toolbar" role="banner">
-  <h2 class="title">HPO on FHIR</h2>
+  <h2 class="title">HPO on FHIR [http://vulcan.clinicalprofiles.org:8080/]</h2>
   <div class="spacer"></div>
   <img
     width="100"
@@ -38,7 +38,7 @@
       <p><strong>Gender:</strong> {{patient.gender}}</p>
     </div>
     <br>
-    <h3 class="bt">Phenotype Observations</h3>
+    <h3 class="bt">Phenotypic Abnormalities</h3>
     <div class="phenotypes-table">
       <table class="slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
              ngl-datatable [data]="this.patient.observations"[(sort)]="sort" (sortChange)="onSort($event)">
@@ -48,7 +48,9 @@
           </ng-template>
         </ngl-datatable-column>
         <ngl-datatable-column heading="HPO Term Name" key="name" sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Excluded?" key="excluded" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="Present?" key="excluded" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="Starting" key="start" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="Ending" key="end" sortable></ngl-datatable-column>
         <!-- No rows overlay-->
         <ng-template nglNoRowsOverlay>No data available in table!</ng-template>
       </table>

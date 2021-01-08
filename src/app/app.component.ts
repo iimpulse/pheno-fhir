@@ -69,10 +69,25 @@ export class AppComponent implements OnInit {
           excluded = true;
         }
 
+        let start = "-"; 
+        let end = "-";
+        if(entry.resource.effectivePeriod){
+          let effective = entry.resource.effectivePeriod;
+          if(effective.start){
+            start = new Date(effective.start).toLocaleDateString();
+            end = new Date(effective.end).toLocaleDateString();
+          } else {
+            start = new Date(effective).toLocaleDateString();
+            end = new Date(effective).toLocaleDateString();
+          }
+        }
+
         observations.push({
           code: entry.resource.code.coding[0].code,
           name: name,
-          excluded: excluded
+          excluded: excluded,
+          start: start,
+          end:  end
         });
       });
     }

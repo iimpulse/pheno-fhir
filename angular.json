@@ -121,8 +121,13 @@
               "devServerTarget": "pheno-fhir:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "pheno-fhir"
 }
