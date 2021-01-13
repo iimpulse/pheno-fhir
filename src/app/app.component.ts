@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   patients = [];
   formControl = new FormControl("");
   age = null;
+  wrapit="wrapit";
   // Initial sort
   sort: INglDatatableSort = { key: 'excluded', order: 'asc' };
   constructor(private fhirService: FhirService) {
@@ -38,7 +39,6 @@ export class AppComponent implements OnInit {
       this.age = Math.floor((Math.random() * 85) + 1);
       this.fhirService.searchPatientFhir(id).subscribe((fhirResponse) => {
         this.patient = this.reduceFhirPatientResponse(fhirResponse);
-        this.flexSearchOffset = 0;
       });
       this.fhirService.searchPatientObservation(id).subscribe((fhirResponse) => {
         this.patient.observations = this.reduceFhirPatientObservations(fhirResponse);
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
           excluded = true;
         }
 
-        let start = "-"; 
+        let start = "-";
         let end = "-";
         if(entry.resource.effectivePeriod){
           let effective = entry.resource.effectivePeriod;
@@ -82,21 +82,29 @@ export class AppComponent implements OnInit {
           }
         }
 
+        let note = "-";
+        let curationDate = "-";
+        let curator = "UNKNOWN";
+
+        if(entry.resource.note.length == 1){
+          note = entry.resource.note[0].text ? entry.resource.note[0].text : "-";
+          curator = entry.resource.note[0].authorString;
+          curationDate = new Date(entry.resource.note[0].time).toLocaleDateString();
+        }
+
         observations.push({
           code: entry.resource.code.coding[0].code,
           name: name,
           excluded: excluded,
           start: start,
-          end:  end
+          end:  end,
+          note: note,
+          curator: curator,
+          curationDate: curationDate
         });
       });
     }
     return observations;
-  }
-
-  selectPatient(patient){
-    console.log(patient.name);
-    console.log("winner");
   }
 
   // Custom sort function

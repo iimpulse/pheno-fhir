@@ -18,8 +18,8 @@
   />
 </div>
 
-<div class="content" role="main" fxLayout="row" fxLayoutAlign="space-between">
-  <div fxFlex="33" [fxFlexOffset]="flexSearchOffset">
+<div class="content" role="main" fxLayout="row wrap" fxLayoutAlign="space-between">
+  <div class="search-container" fxFlex="33" [fxFlexOffset]="flexSearchOffset">
     <ngl-select label="FHIR Patient" fieldLevelHelpTooltip="Some helpful information">
       <select ngl [formControl]="formControl">
         <option value="" selected>Select a Patient</option>
@@ -30,7 +30,7 @@
       </select>
     </ngl-select>
   </div>
-  <div fxFlex fxFlexOffset="5" *ngIf="patient.name">
+  <div fxFlex="75" fxFlexOffset="13" *ngIf="patient.name">
     <h3 class="bt">Patient Information</h3>
     <div class="box">
       <p><strong>Name:</strong> {{patient.name}}</p>
@@ -47,10 +47,13 @@
             {{row.code}}</a></b>
           </ng-template>
         </ngl-datatable-column>
-        <ngl-datatable-column heading="HPO Term Name" key="name" sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Present?" key="excluded" sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Starting" key="start" sortable></ngl-datatable-column>
-        <ngl-datatable-column heading="Ending" key="end" sortable></ngl-datatable-column>
+        <ngl-datatable-column heading="HPO Term Name" key="name" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Present?" key="excluded" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Starting" key="start" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Ending" key="end" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Curator" key="curator" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Note" key="note" sortable [cellClass]="wrapit"></ngl-datatable-column>
+        <ngl-datatable-column heading="Curation Date" key="curationDate" sortable [cellClass]="wrapit"></ngl-datatable-column>
         <!-- No rows overlay-->
         <ng-template nglNoRowsOverlay>No data available in table!</ng-template>
       </table>
