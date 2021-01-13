@@ -63,10 +63,10 @@ export class AppComponent implements OnInit {
     if(response.entry){
       response.entry.forEach((entry) => {
         let name = entry.resource.code.coding[0].display;
-        let excluded = false;
+        let present = true;
         if(entry.resource.code.coding[0].display.includes("EXCLUDED")){
           name = entry.resource.code.coding[0].display.replace("EXCLUDED ", "");
-          excluded = true;
+          present = false;
         }
 
         let start = "-";
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
         observations.push({
           code: entry.resource.code.coding[0].code,
           name: name,
-          excluded: excluded,
+          present: present,
           start: start,
           end:  end,
           note: note,
